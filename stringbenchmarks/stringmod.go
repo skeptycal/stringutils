@@ -18,17 +18,17 @@ func ToUpper(s string) string {
 	return sb.String()
 }
 
-func toUpperNoDep(s string) string {
-	var sb strings.Builder
-	for _, c := range []byte(s) {
-		if IsASCIIAlpha(c) {
-			sb.WriteByte(c | upperMask)
-			continue
-		}
-		sb.WriteByte(c)
-	}
-	return sb.String()
-}
+// func toUpperNoDep(s string) string {
+// 	var sb strings.Builder
+// 	for _, c := range []byte(s) {
+// 		if IsASCIIAlpha(c) {
+// 			sb.WriteByte(c | upperMask)
+// 			continue
+// 		}
+// 		sb.WriteByte(c)
+// 	}
+// 	return sb.String()
+// }
 
 func ToLowerByte(c byte) byte {
 	if IsASCIIAlpha(c) {

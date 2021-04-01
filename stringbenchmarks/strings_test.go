@@ -355,32 +355,6 @@ var Want = unicode.IsSpace
 // 	}
 // }
 
-func TestCount(t *testing.T) {
-	tests := []struct {
-		name string
-		s    []byte
-		sep  []byte
-		want int
-	}{
-		// TODO: Add test cases.
-		{"splitOn8", []byte(`1234567890abcdef`), []byte(`6`), 1},
-		{"splitOn8", []byte("1234567888890abcdef"), []byte("8"), 4},
-		{"splitOn8", []byte("1234567888890abcdef"), []byte("88"), 2},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := bCount(tt.s, tt.sep); got != tt.want {
-				t.Errorf("bCount(%s in %s) = %v, want %v", string(tt.sep), string(tt.s), got, tt.want)
-			}
-		})
-		t.Run(tt.name, func(t *testing.T) {
-			if got := bytes.Count(tt.s, tt.sep); got != tt.want {
-				t.Errorf("bytes.Count(%s in %s) = %v, want %v", string(tt.sep), string(tt.s), got, tt.want)
-			}
-		})
-	}
-}
-
 func RandBytes(n int) []byte {
 	b := make([]byte, 0, n)
 	buf := bytes.NewBuffer(b)
@@ -411,14 +385,14 @@ func BenchmarkCount(b *testing.B) {
 		f    func([]byte, []byte) int
 	}{
 		// TODO: Add test cases.
-		{"Count", bCount},
+		// {"Count", bCount},
 		{"bytes.Count", bytes.Count},
-		{"bytes.Index", bIndex},
+		// {"bytes.Index", bIndex},
 		{"bytes.Index", bytes.Index},
 		{"bytes.LastIndex", bytes.LastIndex},
 		{"bytes.Compare", bytes.Compare},
-		{"Equal", bEqual},
-		{"Contains", bContains},
+		// {"Equal", bEqual},
+		// {"Contains", bContains},
 	}
 	for _, bb := range tests {
 		name := fmt.Sprintf("Benchmark: %s", bb.name)

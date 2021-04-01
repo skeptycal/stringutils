@@ -7,11 +7,11 @@ import (
 
 // Numbers fundamental to the encoding.
 const (
-	RuneError    = utf8.RuneError // '\uFFFD'       // the "error" Rune or "Unicode replacement character"
-	RuneSelf     = utf8.RuneSelf  // 0x80           // characters below RuneSelf are represented as themselves in a single byte.
-	MaxRune      = utf8.MaxRune   // '\U0010FFFF'   // Maximum valid Unicode code point.
-	UTFMax       = utf8.UTFMax    // 4              // maximum number of bytes of a UTF-8 encoded Unicode character.
-	alphaNumeric = "0123456789abcdefghijklmnopqrstuvwxyz"
+	RuneError = utf8.RuneError // '\uFFFD'       // the "error" Rune or "Unicode replacement character"
+	RuneSelf  = utf8.RuneSelf  // 0x80           // characters below RuneSelf are represented as themselves in a single byte.
+	MaxRune   = utf8.MaxRune   // '\U0010FFFF'   // Maximum valid Unicode code point.
+	UTFMax    = utf8.UTFMax    // 4              // maximum number of bytes of a UTF-8 encoded Unicode character.
+	// alphaNumeric = "0123456789abcdefghijklmnopqrstuvwxyz"
 )
 
 var (
@@ -25,15 +25,15 @@ var (
 	shortASCIIList = []byte{0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x20}
 
 	// all whitespace code points that are one byte long
-	shortByteList = []byte{0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x20, 0x85, 0xA0}
+	// shortByteList = []byte{0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x20, 0x85, 0xA0}
 
 	// most common unicode whitespace code points
 	longRuneList = []rune{0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x20, 0x85, 0xA0, 0x2000, 0x200A, 0x2028, 0x2029, 0x202F, 0x205F, 0x3000, 0xFFEF, 0x1680}
 
 	// byte lists transformed to strings
 	shortASCIIListString = string(shortASCIIList)
-	shortByteListString  = string(shortByteList)
-	longRuneListString   = string(longRuneList)
+	// shortByteListString  = string(shortByteList)
+	longRuneListString = string(longRuneList)
 
 	// unicodeWhiteSpaceMap provides a mapping from Unicode runes to strings
 	// with descriptions of each. It is marginally slower than the bool map.

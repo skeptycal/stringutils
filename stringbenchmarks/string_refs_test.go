@@ -68,14 +68,8 @@ BenchmarkConcatBuffer-8                 	125407339	         9.60 ns/op	       2 
 BenchmarkConcatBuilder-8                	411729237	         2.86 ns/op	       2 B/op	       0 allocs/op
 */
 
-// smallBufferSize is an initial allocation minimal capacity.
-const smallBufferSize = 64
-
 // ErrTooLarge is passed to panic if memory cannot be allocated to store data in a buffer.
 var ErrTooLarge = errors.New("bytes.Buffer: too large")
-var errNegativeRead = errors.New("bytes.Buffer: reader returned negative count from Read")
-
-const maxInt = int(^uint(0) >> 1)
 
 // bytesBuffer is an implementation of bytes.Buffer with Read and Write methods.
 // It is intended to be pre-sized and has no capacity to grow.
@@ -113,7 +107,7 @@ func BenchmarkConcatBufferImplementation(b *testing.B) {
 	var buffer bytesBuffer
 
 	for i := 0; i < strLen; i++ {
-		buffer.WriteString(testString)
+		_, _ = buffer.WriteString(testString)
 	}
 
 	buffer = bytesBuffer{}
@@ -130,8 +124,6 @@ func BenchmarkConcatString(b *testing.B) {
 	for i := 0; i < strLen; i++ {
 		str += testString
 	}
-
-	str = ""
 }
 
 func BenchmarkConcatBuffer(b *testing.B) {
@@ -153,20 +145,3 @@ func BenchmarkConcatBuilder(b *testing.B) {
 
 	builder = strings.Builder{}
 }
-
-// The readOp constants describe the last action performed on
-// the buffer, so that UnreadRune and UnreadByte can check for
-// invalid usage. opReadRuneX constants are chosen such that
-// converted to int they correspond to the rune size that was read.
-type readOp int8
-
-// Don't use iota for these, as the values need to correspond with the
-// names and comments, which is easier to see when being explicit.
-const (
-	opRead      readOp = -1 // Any other read operation.
-	opInvalid   readOp = 0  // Non-read operation.
-	opReadRune1 readOp = 1  // Read rune of size 1.
-	opReadRune2 readOp = 2  // Read rune of size 2.
-	opReadRune3 readOp = 3  // Read rune of size 3.
-	opReadRune4 readOp = 4  // Read rune of size 4.
-)

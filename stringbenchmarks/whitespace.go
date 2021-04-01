@@ -6,15 +6,27 @@ import (
 )
 
 //// ======================= best performing functions ... so far
+/* Benchmark results for ASCII bytes
+BenchmarkByte/Benchmark:_isASCIISpace-8         	 1000000	      1022 ns/op	      48 B/op	       2 allocs/op
+BenchmarkByte/Benchmark:_isWhiteSpace-8         	 1233708	       998.8 ns/op	      48 B/op	       2 allocs/op
+BenchmarkByte/Benchmark:_isWhiteSpace2-8        	 1000000	      1039 ns/op	      48 B/op	       2 allocs/op
+BenchmarkByte/Benchmark:_unicodeIsSpace-8       	  953328	      1291 ns/op	      48 B/op	       2 allocs/op
+BenchmarkByte/Benchmark:_Slice-8                	  733126	      1714 ns/op	      48 B/op	       2 allocs/op
+BenchmarkByte/Benchmark:_Regex-8                	   58346	     20612 ns/op	     218 B/op	     170 allocs/op
+*/
 
-// IsASCIISpace tests for the most common ASCII whitespace characters:
+func IsASCIIWhiteSpace(c byte) bool {
+	return isWhiteSpace(c)
+}
+
+// isASCIISpace tests for the most common ASCII whitespace characters:
 //  ' ', '\t', '\n', '\f', '\r', '\v'
 //
 // This excludes all Unicode code points above 0x007F.
 //
 // The C language defines whitespace characters to be "space,
 // horizontal tab, new-line, vertical tab, and form-feed."
-func IsASCIISpace(c byte) bool {
+func isASCIISpace(c byte) bool {
 
 	return c == 0x20 || (9 <= c && c <= 13)
 
@@ -51,7 +63,7 @@ const (
 	// 61	01100001	a
 )
 
-func IsSpaceMask(c byte) bool {
+func isSpaceMask(c byte) bool {
 	c &= spaceMask
 	c &= eightMask
 	c &= sevenMask
@@ -89,9 +101,9 @@ func DedupeWhitespace(s string, ignoreNewlines bool) string {
 	return sb.String()
 }
 
-func dedupeWhitespaceRegex(s string) string {
-	return reWhitespace.ReplaceAllString(strings.TrimSpace(s), " ")
-}
+// func dedupeWhitespaceRegex(s string) string {
+// 	return reWhitespace.ReplaceAllString(strings.TrimSpace(s), " ")
+// }
 
 // isWhiteSpace is a sample implementation of a whitespace
 // test function that mirrors the unicode.IsSpace function.
@@ -101,7 +113,7 @@ func unicodeIsSpace(c byte) bool {
 
 // isWhiteSpace is a sample implementation of a whitespace
 // test function that mirrors the unicode.IsSpace function.
-func unicodeIsSpaceRune(r rune) bool {
+func unicodeIsSpaceRune(r byte) bool {
 	return r == ' ' || r == '\n' || r == '\t' || r == '\r' || r == '\f' || r == '\v' || r == 85 || r == 0x00A0
 }
 
@@ -154,7 +166,11 @@ func isWhiteSpaceStringSliceBytes(c byte) bool {
 
 //// ======================= rune parameter
 
-// IsUnicodeWhiteSpaceMap reports whether the rune is any utf8 whitespace character
+func IsUnicodeWhiteSpace(r rune) bool {
+	return isUnicodeWhiteSpaceMap(r)
+}
+
+// isUnicodeWhiteSpaceMap reports whether the rune is any utf8 whitespace character
 // using the broadest and most complete definition.
 //
 // The speed of this implementation ~25% slower than that of
@@ -173,7 +189,7 @@ func isWhiteSpaceStringSliceBytes(c byte) bool {
 // Related Unicode characters (property White_Space=no)
 // Not included:
 //  0x200B,	0x200C,	0x200D,	0x2060
-func IsUnicodeWhiteSpaceMap(r rune) bool {
+func isUnicodeWhiteSpaceMap(r rune) bool {
 	if r < unicode.MaxLatin1 {
 		return r == ' ' || (r > 8 && r < 14) || r == 0x85 || r == 0xA0
 	}
@@ -301,6 +317,6 @@ func isWhiteSpaceContainsRune(s string) bool {
 
 // isWhiteSpaceTrim a sample implementation of a whitespace
 // test function used for benchmark comparisons.
-func isWhiteSpaceTrim(s string) bool {
-	return strings.TrimSpace(s) == ""
-}
+// func isWhiteSpaceTrim(s string) bool {
+// 	return strings.TrimSpace(s) == ""
+// }

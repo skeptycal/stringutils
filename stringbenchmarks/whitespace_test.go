@@ -14,11 +14,14 @@ var (
 		want func(c byte) bool
 	}{
 		// TODO: Add test cases.
-		{"IsASCIISpace", IsASCIISpace, IsASCIISpace},
-		{"isWhiteSpace", isWhiteSpace, IsASCIISpace},
-		{"isWhiteSpace2", isWhiteSpace2, IsASCIISpace},
-		{"isWhiteSpaceStringSliceBytes", isWhiteSpaceStringSliceBytes, IsASCIISpace},
-		{"isWhiteSpaceRegexByte", isWhiteSpaceRegexByte, IsASCIISpace},
+		{"isASCIISpace", isASCIISpace, isASCIISpace},
+		{"isWhiteSpace", isWhiteSpace, isASCIISpace},
+		{"isWhiteSpace2", isWhiteSpace2, isASCIISpace},
+		{"unicodeIsSpace", unicodeIsSpace, unicodeIsSpace},
+
+		// {"isSpaceMask", isSpaceMask, isASCIISpace},
+		{"Slice", isWhiteSpaceStringSliceBytes, isASCIISpace},
+		{"Regex", isWhiteSpaceRegexByte, isASCIISpace},
 	}
 
 	testRunes = []struct {
@@ -31,7 +34,7 @@ var (
 		{"isWhiteSpaceLogicChain", isWhiteSpaceLogicChain, unicode.IsSpace},
 		{"isWhiteRuneSlice", isWhiteSpaceRuneSlice, unicode.IsSpace},
 		{"isWhiteSpaceBoolMap", isWhiteSpaceBoolMap, unicode.IsSpace},
-		{"IsUnicodeWhiteSpaceMap", IsUnicodeWhiteSpaceMap, unicode.IsSpace},
+		{"IsUnicodeWhiteSpaceMap", isUnicodeWhiteSpaceMap, unicode.IsSpace},
 		{"IsUnicodeWhiteSpaceMapSwitch", isUnicodeWhiteSpaceMapSwitch, unicode.IsSpace},
 		{"isWhiteSpaceStringMap", isWhiteSpaceStringMap, unicode.IsSpace},
 		{"isWhiteSpaceStringSlice", isWhiteSpaceStringSlice, unicode.IsSpace},
@@ -44,9 +47,9 @@ var (
 		want func(c byte) bool
 	}{
 		// TODO: Add test cases.
-		{"isWhiteSpaceContainsByte", isWhiteSpaceContainsByte, IsASCIISpace},
-		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, IsASCIISpace},
-		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, IsASCIISpace},
+		{"isWhiteSpaceContainsByte", isWhiteSpaceContainsByte, isASCIISpace},
+		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, isASCIISpace},
+		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, isASCIISpace},
 		// {"isWhiteSpaceTrim", isWhiteSpaceTrim, unicodeIsSpace}, // erratic results
 	}
 
@@ -68,7 +71,9 @@ func BenchmarkByte(b *testing.B) {
 		b.Run(name, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				for _, c := range ByteSamples() {
-					bb.f(c)
+					for j := 0; j < 10; j++ {
+						bb.f(c)
+					}
 				}
 			}
 		})

@@ -83,12 +83,12 @@ func RuneSamples() []rune {
 	return retval
 }
 
-func byteStringSamples() (list []string) {
-	for _, r := range RuneSamples() {
-		list = append(list, string(r))
-	}
-	return
-}
+// func byteStringSamples() (list []string) {
+// 	for _, r := range RuneSamples() {
+// 		list = append(list, string(r))
+// 	}
+// 	return
+// }
 
 func runeStringSamples() (list []string) {
 	for _, r := range RuneSamples() {
