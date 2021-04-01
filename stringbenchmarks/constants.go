@@ -7,11 +7,11 @@ import (
 
 // Numbers fundamental to the encoding.
 const (
-	RuneError     = utf8.RuneError // '\uFFFD'       // the "error" Rune or "Unicode replacement character"
-	RuneSelf      = utf8.RuneSelf  // 0x80           // characters below RuneSelf are represented as themselves in a single byte.
-	MaxRune       = utf8.MaxRune   // '\U0010FFFF'   // Maximum valid Unicode code point.
-	UTFMax        = utf8.UTFMax    // 4              // maximum number of bytes of a UTF-8 encoded Unicode character.
-	alphanumerics = "0123456789abcdefghijklmnopqrstuvwxyz"
+	RuneError    = utf8.RuneError // '\uFFFD'       // the "error" Rune or "Unicode replacement character"
+	RuneSelf     = utf8.RuneSelf  // 0x80           // characters below RuneSelf are represented as themselves in a single byte.
+	MaxRune      = utf8.MaxRune   // '\U0010FFFF'   // Maximum valid Unicode code point.
+	UTFMax       = utf8.UTFMax    // 4              // maximum number of bytes of a UTF-8 encoded Unicode character.
+	alphaNumeric = "0123456789abcdefghijklmnopqrstuvwxyz"
 )
 
 var (
@@ -35,7 +35,7 @@ var (
 	shortByteListString  = string(shortByteList)
 	longRuneListString   = string(longRuneList)
 
-	// UnicodeWhiteSpaceMap provides a mapping from Unicode runes to strings
+	// unicodeWhiteSpaceMap provides a mapping from Unicode runes to strings
 	// with descriptions of each. It is marginally slower than the bool map.
 	//
 	// In computer programming, whitespace is any character or series of
@@ -47,7 +47,7 @@ var (
 	// word divider in Western scripts.
 	//
 	// Reference: https://en.wikipedia.org/wiki/Whitespace_character
-	UnicodeWhiteSpaceMap = map[rune]string{
+	unicodeWhiteSpaceMap = map[rune]string{
 		0x0009: `CHARACTER TABULATION <TAB>`,
 		0x000A: `ASCII LF`,
 		0x000B: `LINE TABULATION <VT>`,

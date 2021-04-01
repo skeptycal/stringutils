@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package stringutils implements additional functions to
+// Package stringbenchmarks implements additional functions to
 // support the go standard library strings module.
 //
-// The algorithms chosen are based on benchmarks from
-// the stringbenchmarks module. ymmv...
+// The algorithms chosen are exported to package stringutils
+// based on benchmarks from this module. ymmv...
 //
 // The current implementation at the start of this project was
 // .../go/1.15.3/libexec/src/strings/strings.go
@@ -39,7 +39,7 @@ func ToString(any interface{}) string {
 	case float64, float32:
 		return fmt.Sprintf("%.2g", v)
 	}
-	return "???"
+	return fmt.Sprintf("%v", any)
 }
 
 func JoinLines(list []string) string {

@@ -16,50 +16,16 @@
 package stringutils
 
 import (
-	"fmt"
 	"math/rand"
-	"strconv"
-	"strings"
 	"time"
+
+	// Functions exported from stringbenchmarks are the
+	// most efficient versions
+	. "github.com/skeptycal/stringutils/stringbenchmarks"
 )
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
-}
-
-// ToString implements Stringer directly as a function call
-// with a parameter instead of a method on that parameter.
-func ToString(any interface{}) string {
-	if v, ok := any.(fmt.Stringer); ok {
-		return v.String()
-	}
-	switch v := any.(type) {
-	case int:
-		return strconv.Itoa(v)
-	case float64, float32:
-		return fmt.Sprintf("%.2g", v)
-	}
-	return "???"
-}
-
-func JoinLines(list []string) string {
-	return strings.Join(list, "\n")
-}
-
-func TabIt(s string, n int) string {
-	tmp := make([]string, 0, strings.Count(s, "\n")+3)
-	for _, line := range strings.Fields(s) {
-		tmp = append(tmp, strings.Repeat(" ", n)+line)
-	}
-	return strings.Join(tmp, "\n")
-}
-
-// RuneSample prints a sample of various Unicode runes.
-func RuneSample(c rune) {
-	s := "日本語"
-	fmt.Printf("Glyph:   %q\n", s)
-	fmt.Printf("UTF-8:   [% x]\n", []byte(s))
-	fmt.Printf("Unicode: %U\n", []rune(s))
 }
 
 func ByteToDigit(c byte) byte {

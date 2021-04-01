@@ -178,7 +178,7 @@ func IsUnicodeWhiteSpaceMap(r rune) bool {
 		return r == ' ' || (r > 8 && r < 14) || r == 0x85 || r == 0xA0
 	}
 
-	if _, ok := UnicodeWhiteSpaceMap[r]; ok {
+	if _, ok := unicodeWhiteSpaceMap[r]; ok {
 		return true
 	}
 	return false
@@ -194,7 +194,7 @@ func isUnicodeWhiteSpaceMapSwitch(r rune) bool {
 		}
 		return false
 	}
-	if _, ok := UnicodeWhiteSpaceMap[r]; ok {
+	if _, ok := unicodeWhiteSpaceMap[r]; ok {
 		return true
 	}
 	return false
@@ -203,7 +203,7 @@ func isUnicodeWhiteSpaceMapSwitch(r rune) bool {
 // isWhiteSpaceStringMap is a sample implementation of a whitespace
 // test function used for benchmark comparisons.
 func isWhiteSpaceStringMap(r rune) bool {
-	if _, ok := UnicodeWhiteSpaceMap[r]; ok {
+	if _, ok := unicodeWhiteSpaceMap[r]; ok {
 		return true
 	}
 	return false
