@@ -19,6 +19,17 @@ func IsASCIIWhiteSpace(c byte) bool {
 	return isWhiteSpace(c)
 }
 
+// most common whitespace hex and binary characters
+/*
+
+   0x09    0b00001001
+   0x0a    0b00001010
+   0x0b    0b00001011
+   0x0c    0b00001100
+   0x0d    0b00001101
+
+*/
+
 // isASCIISpace tests for the most common ASCII whitespace characters:
 //  ' ', '\t', '\n', '\f', '\r', '\v'
 //
@@ -28,17 +39,7 @@ func IsASCIIWhiteSpace(c byte) bool {
 // horizontal tab, new-line, vertical tab, and form-feed."
 func isASCIISpace(c byte) bool {
 
-	return c == 0x20 || (9 <= c && c <= 13)
-
-	/*
-
-	   0x09    0b00001001
-	   0x0a    0b00001010
-	   0x0b    0b00001011
-	   0x0c    0b00001100
-	   0x0d    0b00001101
-
-	*/
+	return c == 0x20 || (9 <= c && c <= 13) // || c == '\u00a0' || c == '\u0085'
 }
 
 const (
@@ -111,10 +112,13 @@ func unicodeIsSpace(c byte) bool {
 	return c == ' ' || c == '\n' || c == '\t' || c == '\r' || c == '\f' || c == '\v' || c == 0x0085 || c == 0x00A0
 }
 
-// isWhiteSpace is a sample implementation of a whitespace
+// unicodeIsSpaceRune is a sample implementation of a whitespace
 // test function that mirrors the unicode.IsSpace function.
-func unicodeIsSpaceRune(r byte) bool {
-	return r == ' ' || r == '\n' || r == '\t' || r == '\r' || r == '\f' || r == '\v' || r == 85 || r == 0x00A0
+func unicodeIsSpaceRune(r rune) bool {
+	if r > unicode.MaxLatin1 {
+		return unicode.IsSpace(r)
+	}
+	return r == ' ' || r == '\n' || r == '\t' || r == '\r' || r == '\f' || r == '\v' || r == '\u00a0' || r == '\u0085'
 }
 
 //// ======================= benchmark samples
@@ -147,6 +151,8 @@ func isWhiteSpace2(c byte) bool {
 		return true
 	case '\f', '\r', '\v':
 		return true
+	// case '\u00a0', '\u0085':
+	// 	return true
 	default:
 		return false
 	}
@@ -293,8 +299,9 @@ func isWhiteSpaceStringSlice(r rune) bool {
 
 // isWhiteSpaceIndexByte a sample implementation of a whitespace
 // test function used for benchmark comparisons.
+// strings.Index runs 2 to 3 times faster in this configuration ...
 func isWhiteSpaceIndexByte(s string) bool {
-	return strings.Index(shortASCIIListString, s) > -1 // Index > -1 is 3x faster than contains for most use cases
+	return strings.ContainsAny(s, shortASCIIListString) // Index > -1 is 3x faster than contains for most use cases
 }
 
 // isWhiteSpaceContainsByte a sample implementation of a whitespace

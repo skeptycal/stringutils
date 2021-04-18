@@ -62,42 +62,34 @@ package main
 import (
 	"fmt"
 
-	"github.com/skeptycal/util/stringutils/ansi"
+	"github.com/skeptycal/ansi"
 )
 
-const (
-	ansiColor = "\033[38;5;%dm" // set ANSI foreground color to code %d using printf
-	ansiReset = "\033[39;49;0m" // reset ANSI terminal output to default foreground and background colors
-)
-
-func ansiString(i int) string {
-	return fmt.Sprintf(ansiColor, i)
-}
-
-func Cprint(i int, args ...interface{}) {
-	fmt.Print(ansiString(i))
-	fmt.Print(args...)
-	fmt.Print(ansiReset)
-}
-
-func Cprintln(i int, args ...interface{}) {
-	fmt.Print(ansiString(i))
-	fmt.Print(args...)
-	fmt.Println(ansiReset)
-}
+// const (
+// 	ansiColor = "\033[38;5;%dm" // set ANSI foreground color to code %d using printf
+// 	ansiReset = "\033[39;49;0m" // reset ANSI terminal output to default foreground and background colors
+// )
 
 func main() {
+
+	a := ansi.NewColor(2, 0, 1)
+	c := ansi.NewAnsiString(a, "This stuff is GREEN")
+
 	fmt.Println("")
-	ansi.Cprintln(83, "Example of 'defer' statement.")
-	Cprintln(83, "-----------------------------")
+	fmt.Printf("%s\n", c)
 	fmt.Println("")
-	Cprintln(35, "This code contains a loop that counts *UP* from 0 to 500.")
-	Cprintln(35, "- Within the loop, the loop counter is printed in the matching ANSI color using 'defer print ...'")
-	Cprintln(35, "- shows the 'reversing' effect of the defer statement. ")
-	Cprintln(35, "- ANSI color codes above 255 become x mod 255 ... only the LSB is used.")
-	fmt.Println("")
-	for i := 0; i < 500; i++ {
-		defer Cprint(i, i, " ")
-	}
+
+	// fmt.Println("")
+	// ansi.Cprintln(83, "Example of 'defer' statement.")
+	// Cprintln(83, "-----------------------------")
+	// fmt.Println("")
+	// Cprintln(35, "This code contains a loop that counts *UP* from 0 to 500.")
+	// Cprintln(35, "- Within the loop, the loop counter is printed in the matching ANSI color using 'defer print ...'")
+	// Cprintln(35, "- shows the 'reversing' effect of the defer statement. ")
+	// Cprintln(35, "- ANSI color codes above 255 become x mod 255 ... only the LSB is used.")
+	// fmt.Println("")
+	// for i := 0; i < 500; i++ {
+	// 	defer Cprint(i, i, " ")
+	// }
 	fmt.Println("")
 }

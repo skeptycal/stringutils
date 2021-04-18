@@ -35,6 +35,7 @@ var (
 		{"isWhiteRuneSlice", isWhiteSpaceRuneSlice, unicode.IsSpace},
 		{"isWhiteSpaceBoolMap", isWhiteSpaceBoolMap, unicode.IsSpace},
 		{"IsUnicodeWhiteSpaceMap", isUnicodeWhiteSpaceMap, unicode.IsSpace},
+		{"unicodeIsSpace", unicodeIsSpaceRune, unicode.IsSpace},
 		{"IsUnicodeWhiteSpaceMapSwitch", isUnicodeWhiteSpaceMapSwitch, unicode.IsSpace},
 		{"isWhiteSpaceStringMap", isWhiteSpaceStringMap, unicode.IsSpace},
 		{"isWhiteSpaceStringSlice", isWhiteSpaceStringSlice, unicode.IsSpace},
@@ -48,7 +49,6 @@ var (
 	}{
 		// TODO: Add test cases.
 		{"isWhiteSpaceContainsByte", isWhiteSpaceContainsByte, isASCIISpace},
-		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, isASCIISpace},
 		{"isWhiteSpaceIndexByte", isWhiteSpaceIndexByte, isASCIISpace},
 		// {"isWhiteSpaceTrim", isWhiteSpaceTrim, unicodeIsSpace}, // erratic results
 	}
@@ -137,11 +137,15 @@ func BenchmarkStringRune(b *testing.B) {
 
 func TestWhiteSpaceBytes(t *testing.T) {
 	tests := testBytes
+
+	// 	case '\u00a0', '\u0085':
+	// return true
+
 	for _, tt := range tests {
 		for _, c := range SmallByteSamples() {
 			// want := unicode.IsSpace(rune(c)) // standard library
 			want := tt.want(c)
-			name := fmt.Sprintf("Whitespace check(%q): %s", c, tt.name)
+			name := fmt.Sprintf("%s(%q)", tt.name, c)
 			t.Run(name, func(t *testing.T) {
 				got := tt.f(c)
 				if got != want {

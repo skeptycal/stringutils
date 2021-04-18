@@ -22,6 +22,7 @@ func main() {
 	switch ctx.Command() {
 	case "rm <path>":
 	case "ls":
+		ctx.
 	default:
 		panic(ctx.Command())
 	}

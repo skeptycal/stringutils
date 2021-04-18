@@ -2,4 +2,7 @@ module github.com/skeptycal/stringutils
 
 go 1.16
 
-require golang.org/x/sys v0.0.0-20210326220804-49726bf1d181
+require (
+	github.com/alecthomas/kong v0.2.16 // indirect
+	github.com/skeptycal/ansi v0.3.5 // indirect
+)
